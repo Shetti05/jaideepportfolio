@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef, Suspense } from "react";
 import InteractiveCard from "./InteractiveCard";
-import { SkillsScene } from "./Scene3D";
+import { SkillsDNA } from "./SkillsDNA";
 
 const Skills = () => {
   const ref = useRef(null);
@@ -55,15 +55,15 @@ const Skills = () => {
 
   return (
     <section id="skills" className="py-24 relative overflow-hidden">
-      {/* 3D Background */}
+      {/* 3D Background - DNA Helix */}
       <div className="absolute inset-0 z-0">
         <Suspense fallback={null}>
-          <SkillsScene />
+          <SkillsDNA />
         </Suspense>
       </div>
 
-      {/* Gradient overlay */}
-      <div className="absolute inset-0 z-[1] pointer-events-none bg-gradient-to-b from-background/80 via-background/60 to-background/80" />
+      {/* Gradient overlay - lighter to let 3D show through */}
+      <div className="absolute inset-0 z-[1] pointer-events-none bg-gradient-to-b from-background/20 via-transparent to-background/20" />
 
       <div className="container mx-auto px-6 relative z-10" ref={ref}>
         <motion.div
@@ -92,7 +92,7 @@ const Skills = () => {
               <InteractiveCard className="h-full" glowColor={catIndex % 2 === 0 ? "primary" : "secondary"}>
                 <div className="glass-strong rounded-2xl p-6 h-full">
                   <h3 className="text-xl font-semibold font-display mb-6 text-primary flex items-center gap-3">
-                    <motion.span 
+                    <motion.span
                       className="w-3 h-3 rounded-full bg-gradient-to-r from-primary to-secondary"
                       animate={{ scale: [1, 1.2, 1] }}
                       transition={{ duration: 2, repeat: Infinity }}
@@ -107,8 +107,8 @@ const Skills = () => {
                           initial={{ opacity: 0, scale: 0.8 }}
                           animate={isInView ? { opacity: 1, scale: 1 } : {}}
                           transition={{ duration: 0.4, delay: 0.3 + catIndex * 0.1 + skillIndex * 0.1 }}
-                          whileHover={{ 
-                            scale: 1.1, 
+                          whileHover={{
+                            scale: 1.1,
                             y: -5,
                             transition: { duration: 0.2 }
                           }}
@@ -116,23 +116,23 @@ const Skills = () => {
                         >
                           <div className="glass rounded-xl p-4 flex flex-col items-center gap-3 cursor-default border border-white/5 hover:border-primary/30 transition-all duration-300">
                             {/* Real technology logo */}
-                            <motion.div 
+                            <motion.div
                               className="w-16 h-16 rounded-xl bg-white/10 p-2 flex items-center justify-center shadow-lg backdrop-blur-sm"
                               whileHover={{ rotate: [0, -5, 5, 0], scale: 1.1 }}
                               transition={{ duration: 0.4 }}
                             >
-                              <img 
-                                src={skill.logo} 
-                                alt={skill.name} 
+                              <img
+                                src={skill.logo}
+                                alt={skill.name}
                                 className="w-full h-full object-contain drop-shadow-lg"
                               />
                             </motion.div>
-                            
+
                             {/* Skill name */}
                             <span className="text-sm font-medium text-center group-hover:text-primary transition-colors">
                               {skill.name}
                             </span>
-                            
+
                             {/* Animated glow effect on hover */}
                             <motion.div
                               className={`absolute inset-0 rounded-xl bg-gradient-to-br ${skill.color} opacity-0 group-hover:opacity-20 blur-xl transition-opacity duration-300`}
@@ -164,29 +164,28 @@ const Skills = () => {
                 initial={{ opacity: 0, scale: 0.9, rotateY: -30 }}
                 animate={isInView ? { opacity: 1, scale: 1, rotateY: 0 } : {}}
                 transition={{ duration: 0.4, delay: 0.5 + index * 0.1 }}
-                whileHover={{ 
-                  scale: 1.05, 
+                whileHover={{
+                  scale: 1.05,
                   y: -10,
                   rotateY: 10,
                   rotateX: -5,
-                  boxShadow: cert.color === "primary" 
-                    ? "0 20px 40px rgba(0,212,255,0.3)" 
+                  boxShadow: cert.color === "primary"
+                    ? "0 20px 40px rgba(0,212,255,0.3)"
                     : "0 20px 40px rgba(124,58,237,0.3)"
                 }}
                 style={{ transformStyle: "preserve-3d" }}
-                className={`glass rounded-xl p-5 text-center cursor-default border-l-4 ${
-                  cert.color === "primary" ? "border-l-primary" : "border-l-secondary"
-                }`}
+                className={`glass rounded-xl p-5 text-center cursor-default border-l-4 ${cert.color === "primary" ? "border-l-primary" : "border-l-secondary"
+                  }`}
               >
-                <motion.div 
+                <motion.div
                   className="w-12 h-12 mx-auto mb-3 flex items-center justify-center"
                   animate={{ rotateY: [0, 360] }}
                   transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
                   style={{ transformStyle: "preserve-3d" }}
                 >
-                  <img 
-                    src={cert.logo} 
-                    alt={cert.org} 
+                  <img
+                    src={cert.logo}
+                    alt={cert.org}
                     className="w-full h-full object-contain drop-shadow-lg"
                   />
                 </motion.div>

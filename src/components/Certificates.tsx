@@ -1,7 +1,8 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useInView } from "framer-motion";
-import { useRef, useState } from "react";
+import { useRef, useState, Suspense } from "react";
 import { Award, X, ExternalLink, ChevronDown, ChevronUp } from "lucide-react";
+import { CertificatesScene } from "./Scene3D";
 
 interface Certificate {
   name: string;
@@ -172,12 +173,19 @@ const Certificates = () => {
 
   return (
     <section id="certificates" className="py-24 relative overflow-hidden">
+      {/* 3D Background */}
+      <div className="absolute inset-0 z-0">
+        <Suspense fallback={null}>
+          <CertificatesScene />
+        </Suspense>
+      </div>
+
       {/* Background gradient */}
-      <div className="absolute inset-0 bg-gradient-to-b from-background via-background/95 to-background" />
+      <div className="absolute inset-0 bg-gradient-to-b from-background via-background/95 to-background z-[1]" />
       
       {/* Decorative elements */}
-      <div className="absolute top-20 left-10 w-72 h-72 bg-primary/10 rounded-full blur-3xl animate-pulse" />
-      <div className="absolute bottom-20 right-10 w-96 h-96 bg-secondary/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: "1s" }} />
+      <div className="absolute top-20 left-10 w-72 h-72 bg-primary/10 rounded-full blur-3xl animate-pulse z-[1]" />
+      <div className="absolute bottom-20 right-10 w-96 h-96 bg-secondary/10 rounded-full blur-3xl animate-pulse z-[1]" style={{ animationDelay: "1s" }} />
 
       <div className="container mx-auto px-6 relative z-10" ref={ref}>
         <motion.div

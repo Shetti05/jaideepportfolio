@@ -1,8 +1,7 @@
 import { motion } from "framer-motion";
 import { ArrowDown, Github, Linkedin, Mail, Download, Sparkles, Zap, Code2 } from "lucide-react";
-import { Suspense } from "react";
 import profileImg from "@/assets/profile.jpg";
-import { HeroScene } from "./Scene3D";
+import { SolarSystem } from "./SolarSystem";
 
 // Floating particle component
 const FloatingParticle = ({ delay, duration, x, y, size }: { delay: number; duration: number; x: string; y: string; size: number }) => (
@@ -28,7 +27,7 @@ const FloatingParticle = ({ delay, duration, x, y, size }: { delay: number; dura
 const AnimatedRing = ({ size, delay, reverse }: { size: number; delay: number; reverse?: boolean }) => (
   <motion.div
     className="absolute rounded-full border-2 border-primary/20"
-    style={{ width: size, height: size, left: '50%', top: '50%', marginLeft: -size/2, marginTop: -size/2 }}
+    style={{ width: size, height: size, left: '50%', top: '50%', marginLeft: -size / 2, marginTop: -size / 2 }}
     animate={{
       rotate: reverse ? -360 : 360,
       scale: [1, 1.05, 1],
@@ -43,14 +42,12 @@ const AnimatedRing = ({ size, delay, reverse }: { size: number; delay: number; r
 const Hero = () => {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* 3D Background Scene */}
+      {/* 3D Solar System Background */}
       <div className="absolute inset-0 z-0">
-        <Suspense fallback={<div className="absolute inset-0 bg-background" />}>
-          <HeroScene />
-        </Suspense>
+        <SolarSystem />
       </div>
 
-      {/* Floating Particles */}
+      {/* Floating Particles (Preserved) */}
       <div className="absolute inset-0 z-[1] pointer-events-none overflow-hidden">
         <FloatingParticle delay={0} duration={4} x="10%" y="20%" size={6} />
         <FloatingParticle delay={0.5} duration={5} x="85%" y="30%" size={8} />
@@ -62,15 +59,16 @@ const Hero = () => {
         <FloatingParticle delay={2.5} duration={4.5} x="40%" y="85%" size={8} />
       </div>
 
-      {/* Gradient Overlay */}
-      <div className="absolute inset-0 z-[2] pointer-events-none" style={{ 
-        background: 'radial-gradient(ellipse at center, transparent 0%, hsl(222 47% 6% / 0.6) 60%, hsl(222 47% 6% / 0.95) 100%)' 
+      {/* Gradient Overlay for Text Readability */}
+      <div className="absolute inset-0 z-[2] pointer-events-none" style={{
+        background: 'radial-gradient(ellipse at center, transparent 0%, hsl(222 47% 6% / 0.7) 70%, hsl(222 47% 6% / 0.95) 100%)'
       }} />
 
       {/* Content */}
       <div className="relative z-10 container mx-auto px-6">
         <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
-          {/* Profile Image with Enhanced 3D Effect */}
+
+          {/* Profile Image - Left Side */}
           <motion.div
             initial={{ opacity: 0, scale: 0.5, rotateY: -30 }}
             animate={{ opacity: 1, scale: 1, rotateY: 0 }}
@@ -87,8 +85,8 @@ const Hero = () => {
 
             <motion.div
               className="relative"
-              whileHover={{ 
-                rotateY: 15, 
+              whileHover={{
+                rotateY: 15,
                 rotateX: -10,
                 scale: 1.05,
               }}
@@ -96,7 +94,7 @@ const Hero = () => {
               style={{ transformStyle: "preserve-3d" }}
             >
               {/* Glow effect */}
-              <motion.div 
+              <motion.div
                 className="absolute -inset-3 rounded-full bg-gradient-to-r from-primary via-secondary to-primary blur-xl"
                 animate={{
                   opacity: [0.5, 0.8, 0.5],
@@ -104,7 +102,7 @@ const Hero = () => {
                 }}
                 transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
               />
-              
+
               {/* Profile image */}
               <img
                 src={profileImg}
@@ -112,7 +110,7 @@ const Hero = () => {
                 className="relative w-52 h-52 md:w-72 md:h-72 rounded-full object-cover border-4 border-primary/50 shadow-2xl"
                 style={{ transform: "translateZ(50px)" }}
               />
-              
+
               {/* Animated border overlay */}
               <motion.div
                 className="absolute inset-0 rounded-full border-4 border-transparent"
@@ -127,10 +125,10 @@ const Hero = () => {
               />
             </motion.div>
 
-            {/* Floating icons */}
+            {/* Floating badges */}
             <motion.div
               className="absolute -bottom-2 -right-2 w-16 h-16 rounded-2xl glass flex items-center justify-center shadow-lg"
-              animate={{ 
+              animate={{
                 y: [0, -8, 0],
                 rotate: [0, 5, -5, 0],
               }}
@@ -138,10 +136,10 @@ const Hero = () => {
             >
               <Code2 className="w-8 h-8 text-primary" />
             </motion.div>
-            
+
             <motion.div
               className="absolute -top-2 -left-2 w-14 h-14 rounded-2xl glass flex items-center justify-center shadow-lg"
-              animate={{ 
+              animate={{
                 y: [0, 8, 0],
                 rotate: [0, -5, 5, 0],
               }}
@@ -149,10 +147,10 @@ const Hero = () => {
             >
               <Zap className="w-7 h-7 text-secondary" />
             </motion.div>
-            
+
             <motion.div
               className="absolute top-1/2 -right-8 w-12 h-12 rounded-xl glass flex items-center justify-center shadow-lg"
-              animate={{ 
+              animate={{
                 x: [0, 5, 0],
                 y: [0, -5, 0],
               }}
@@ -162,14 +160,14 @@ const Hero = () => {
             </motion.div>
           </motion.div>
 
-          {/* Text Content */}
-          <div className="text-center lg:text-left">
+          {/* Text Content - Right/Center */}
+          <div className="text-center lg:text-left relative z-20">
             <motion.div
               initial={{ opacity: 0, y: 30, rotateX: -30 }}
               animate={{ opacity: 1, y: 0, rotateX: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
             >
-              <motion.span 
+              <motion.span
                 className="inline-flex items-center gap-2 px-4 py-2 glass rounded-full text-sm font-medium text-primary mb-6 backdrop-blur-xl"
                 animate={{ boxShadow: ["0 0 20px rgba(0,212,255,0.2)", "0 0 30px rgba(0,212,255,0.4)", "0 0 20px rgba(0,212,255,0.2)"] }}
                 transition={{ duration: 2, repeat: Infinity }}
@@ -190,9 +188,9 @@ const Hero = () => {
               transition={{ duration: 0.6, delay: 0.3 }}
               className="text-4xl md:text-6xl lg:text-7xl font-bold font-display mb-4"
             >
-              I'm <motion.span 
+              I'm <motion.span
                 className="text-gradient glow-text inline-block"
-                animate={{ 
+                animate={{
                   textShadow: [
                     "0 0 20px rgba(0,212,255,0.5)",
                     "0 0 40px rgba(0,212,255,0.8)",
@@ -209,10 +207,10 @@ const Hero = () => {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.4 }}
-              className="text-lg md:text-xl text-muted-foreground max-w-xl mb-8"
+              className="text-lg md:text-xl text-muted-foreground max-w-xl mb-8 lg:mx-0 mx-auto"
             >
-              A passionate <span className="text-primary font-semibold">Full Stack Developer</span> & 
-              <span className="text-secondary font-semibold"> Cloud Enthusiast</span> building innovative 
+              A passionate <span className="text-primary font-semibold">Full Stack Developer</span> &
+              <span className="text-secondary font-semibold"> Cloud Enthusiast</span> building innovative
               solutions with modern technologies.
             </motion.p>
 
@@ -244,7 +242,7 @@ const Hero = () => {
                   transition={{ duration: 0.3 }}
                 />
               </motion.a>
-              
+
               <motion.a
                 href="/cv.pdf"
                 download="Jaideep_Shetti_CV.pdf"
@@ -261,7 +259,7 @@ const Hero = () => {
                   transition={{ duration: 0.3 }}
                 />
               </motion.a>
-              
+
               <motion.a
                 href="#contact"
                 className="px-8 py-4 rounded-xl glass hover:border-primary/50 font-semibold"
@@ -279,8 +277,8 @@ const Hero = () => {
               className="flex gap-4 justify-center lg:justify-start"
             >
               {[
-                { icon: Github, href: "https://github.com", label: "GitHub", color: "hover:text-white" },
-                { icon: Linkedin, href: "https://linkedin.com", label: "LinkedIn", color: "hover:text-blue-400" },
+                { icon: Github, href: "https://github.com/Shetti05", label: "GitHub", color: "hover:text-white" },
+                { icon: Linkedin, href: "https://www.linkedin.com/in/jaideep-shetti-a0210a25a", label: "LinkedIn", color: "hover:text-blue-400" },
                 { icon: Mail, href: "mailto:Jaideepshetti55@gmail.com", label: "Email", color: "hover:text-red-400" },
               ].map((social, index) => (
                 <motion.a
@@ -289,8 +287,8 @@ const Hero = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                   className={`w-14 h-14 rounded-xl glass flex items-center justify-center text-muted-foreground ${social.color} transition-all`}
-                  whileHover={{ 
-                    y: -8, 
+                  whileHover={{
+                    y: -8,
                     scale: 1.15,
                     boxShadow: "0 15px 40px rgba(0,212,255,0.4)",
                     rotateY: 15
@@ -313,8 +311,8 @@ const Hero = () => {
         animate={{ y: [0, 10, 0] }}
         transition={{ duration: 2, repeat: Infinity }}
       >
-        <motion.a 
-          href="#about" 
+        <motion.a
+          href="#about"
           className="flex flex-col items-center gap-2 text-muted-foreground hover:text-primary transition-colors"
           whileHover={{ scale: 1.1 }}
         >

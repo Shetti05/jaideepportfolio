@@ -1,8 +1,9 @@
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
-import { useRef } from "react";
+import { useRef, Suspense } from "react";
 import { GraduationCap, MapPin, Code2 } from "lucide-react";
 import InteractiveCard from "./InteractiveCard";
+import { AboutScene } from "./Scene3D";
 
 const About = () => {
   const ref = useRef(null);
@@ -39,8 +40,15 @@ const About = () => {
 
   return (
     <section id="about" className="py-24 relative overflow-hidden">
+      {/* 3D Background */}
+      <div className="absolute inset-0 z-0">
+        <Suspense fallback={null}>
+          <AboutScene />
+        </Suspense>
+      </div>
+
       {/* Background Elements */}
-      <div className="absolute inset-0 pointer-events-none">
+      <div className="absolute inset-0 pointer-events-none z-[1]">
         <motion.div 
           className="absolute top-1/4 -left-32 w-64 h-64 rounded-full bg-primary/5 blur-3xl"
           animate={{ 
