@@ -27,9 +27,8 @@ const Navbar = () => {
       initial={{ y: -100, rotateX: -30 }}
       animate={{ y: 0, rotateX: 0 }}
       transition={{ duration: 0.8, type: "spring" }}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? "glass-strong py-3" : "py-5"
-      }`}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? "glass-strong py-3" : "py-5"
+        }`}
       style={{ perspective: "1000px" }}
     >
       <div className="container mx-auto px-6">
@@ -41,9 +40,10 @@ const Navbar = () => {
             whileTap={{ scale: 0.95 }}
             className="text-2xl font-bold font-display"
             style={{ transformStyle: "preserve-3d" }}
+            aria-label="Jaideep Shetti Portfolio Home"
           >
             <span className="text-gradient">J</span>aideep
-            <motion.span 
+            <motion.span
               className="text-primary inline-block"
               animate={{ scale: [1, 1.3, 1] }}
               transition={{ duration: 2, repeat: Infinity }}
@@ -61,15 +61,15 @@ const Navbar = () => {
                 initial={{ opacity: 0, y: -20, rotateX: -30 }}
                 animate={{ opacity: 1, y: 0, rotateX: 0 }}
                 transition={{ delay: index * 0.1 }}
-                whileHover={{ 
-                  scale: 1.1, 
+                whileHover={{
+                  scale: 1.1,
                   y: -3,
                   color: "hsl(186, 100%, 50%)"
                 }}
                 className="text-sm font-medium text-muted-foreground transition-colors relative group"
               >
                 {link.name}
-                <motion.span 
+                <motion.span
                   className="absolute -bottom-1 left-0 h-0.5 bg-gradient-to-r from-primary to-secondary"
                   initial={{ width: 0 }}
                   whileHover={{ width: "100%" }}
@@ -82,8 +82,8 @@ const Navbar = () => {
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.5 }}
-              whileHover={{ 
-                scale: 1.1, 
+              whileHover={{
+                scale: 1.1,
                 boxShadow: "0 0 30px rgba(0,212,255,0.5)",
                 rotateY: 10
               }}
@@ -101,6 +101,7 @@ const Navbar = () => {
             whileHover={{ scale: 1.1, rotate: 90 }}
             whileTap={{ scale: 0.9 }}
             className="md:hidden p-2 rounded-lg glass"
+            aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
           >
             {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </motion.button>

@@ -63,7 +63,11 @@ const Skills = () => {
       </div>
 
       {/* Gradient overlay - lighter to let 3D show through */}
-      <div className="absolute inset-0 z-[1] pointer-events-none bg-gradient-to-b from-background/20 via-transparent to-background/20" />
+      <div className="absolute inset-0 z-[1] pointer-events-none bg-gradient-to-b from-background/40 via-transparent to-background/40" />
+
+      {/* Decorative Orbs to fill space */}
+      <div className="absolute top-[20%] -left-20 w-80 h-80 bg-primary/10 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute bottom-[20%] -right-20 w-80 h-80 bg-secondary/10 rounded-full blur-[100px] pointer-events-none" />
 
       <div className="container mx-auto px-6 relative z-10" ref={ref}>
         <motion.div

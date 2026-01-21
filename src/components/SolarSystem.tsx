@@ -9,7 +9,7 @@ const TECH_GROUPS = [
     // Inner Orbit: Web & Frontend (Fast)
     {
         radius: 6,
-        speed: 0.4,
+        speed: 0.1,
         items: [
             { name: "React", url: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" },
             { name: "TypeScript", url: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg" },
@@ -26,7 +26,7 @@ const TECH_GROUPS = [
     // Middle Orbit: Backend & Apps (Medium)
     {
         radius: 9,
-        speed: 0.25,
+        speed: 0.06,
         items: [
             { name: "Node.js", url: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" },
             { name: "Python", url: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" },
@@ -43,7 +43,7 @@ const TECH_GROUPS = [
     // Outer Orbit: Cloud, DevOps & Tools (Slow)
     {
         radius: 12,
-        speed: 0.15,
+        speed: 0.03,
         items: [
             { name: "AWS", url: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/amazonwebservices/amazonwebservices-original-wordmark.svg" },
             { name: "Docker", url: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" },
@@ -87,10 +87,16 @@ const TechIcon = ({
         );
     }, [url]);
 
-    useFrame((state) => {
+    useFrame((state, delta) => {
         if (meshRef.current && texture) {
-            // Keep the icon facing the camera (Billboarding)
+            // Smoothly look at the camera
+            const targetQuaternion = new THREE.Quaternion();
+            const originalRotation = meshRef.current.rotation.clone();
             meshRef.current.lookAt(state.camera.position);
+            targetQuaternion.copy(meshRef.current.quaternion);
+            meshRef.current.rotation.copy(originalRotation);
+
+            meshRef.current.quaternion.slerp(targetQuaternion, 0.1);
         }
     });
 
@@ -166,7 +172,7 @@ const OrbitGroup = ({
     useFrame((state) => {
         if (groupRef.current) {
             // Rotate the entire orbit group Y-axis
-            groupRef.current.rotation.y = state.clock.getElapsedTime() * speed * 0.5;
+            groupRef.current.rotation.y = state.clock.getElapsedTime() * speed * 0.2;
         }
     });
 
@@ -195,10 +201,16 @@ const OrbitGroup = ({
 export const SolarSystem = () => {
     return (
         <Canvas
-            camera={{ position: [0, 8, 22], fov: 50 }} // Adjusted camera for larger view
+            camera={{ position: [0, 8, 22], fov: 50 }}
             style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
-            // Pointer events auto to allow OrbitControls and Hover
-            gl={{ alpha: true, antialias: true }}
+            gl={{
+                alpha: true,
+                antialias: true,
+                powerPreference: "high-performance",
+                precision: "lowp" // Lower precision for performance on integrated GPUs
+            }}
+            dpr={[1, 1.5]} // Limit high DPI overhead
+            performance={{ min: 0.5 }} // Allow framedrops to maintain interactivity
         >
             <Suspense fallback={null}>
                 <ambientLight intensity={0.5} />

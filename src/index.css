@@ -63,11 +63,16 @@
   }
 
   body {
-    @apply bg-background text-foreground font-sans antialiased;
+    @apply bg-transparent text-foreground font-sans antialiased;
     font-family: 'Inter', sans-serif;
   }
 
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     font-family: 'Space Grotesk', sans-serif;
   }
 }
@@ -129,22 +134,44 @@
     background-size: 200% 200%;
     animation: gradientShift 8s ease infinite;
   }
+
+  /* Performance Optimizations */
+  .will-change-transform {
+    will-change: transform;
+  }
+
+  .canvas-container {
+    contain: strict;
+    overflow: hidden;
+  }
+
+  /* Interaction smoothing */
+  a,
+  button {
+    @apply transition-transform duration-200;
+  }
 }
 
 @keyframes float {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translateY(0px) rotate(0deg);
   }
+
   50% {
     transform: translateY(-20px) rotate(5deg);
   }
 }
 
 @keyframes pulseGlow {
-  0%, 100% {
+
+  0%,
+  100% {
     opacity: 0.4;
     box-shadow: 0 0 20px hsl(186 100% 50% / 0.3);
   }
+
   50% {
     opacity: 1;
     box-shadow: 0 0 40px hsl(186 100% 50% / 0.6);
@@ -155,9 +182,11 @@
   0% {
     background-position: 0% 50%;
   }
+
   50% {
     background-position: 100% 50%;
   }
+
   100% {
     background-position: 0% 50%;
   }
@@ -179,4 +208,24 @@
 
 ::-webkit-scrollbar-thumb:hover {
   background: hsl(186 100% 50% / 0.5);
+}
+
+/* Custom scrollbar for skills columns */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: hsl(222 47% 8% / 0.5);
+  border-radius: 3px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: hsl(186 100% 50% / 0.4);
+  border-radius: 3px;
+  transition: background 0.3s ease;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: hsl(186 100% 50% / 0.7);
 }

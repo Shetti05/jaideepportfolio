@@ -13,8 +13,8 @@ const FloatingSphere = ({ position, color, size = 1, speed = 1 }: {
 
   useFrame((state) => {
     if (meshRef.current) {
-      meshRef.current.rotation.x = state.clock.elapsedTime * 0.3 * speed;
-      meshRef.current.rotation.y = state.clock.elapsedTime * 0.2 * speed;
+      meshRef.current.rotation.x = state.clock.elapsedTime * 0.1 * speed;
+      meshRef.current.rotation.y = state.clock.elapsedTime * 0.05 * speed;
     }
   });
 
@@ -44,8 +44,8 @@ const FloatingTorus = ({ position, color }: {
 
   useFrame((state) => {
     if (meshRef.current) {
-      meshRef.current.rotation.x = state.clock.elapsedTime * 0.5;
-      meshRef.current.rotation.z = state.clock.elapsedTime * 0.3;
+      meshRef.current.rotation.x = state.clock.elapsedTime * 0.15;
+      meshRef.current.rotation.z = state.clock.elapsedTime * 0.1;
     }
   });
 
@@ -78,8 +78,8 @@ const FloatingBox = ({ position, color }: {
 
   useFrame((state) => {
     if (meshRef.current) {
-      meshRef.current.rotation.x = state.clock.elapsedTime * 0.4;
-      meshRef.current.rotation.y = state.clock.elapsedTime * 0.6;
+      meshRef.current.rotation.x = state.clock.elapsedTime * 0.12;
+      meshRef.current.rotation.y = state.clock.elapsedTime * 0.18;
     }
   });
 
@@ -107,8 +107,8 @@ const FloatingIcosahedron = ({ position, color }: {
 
   useFrame((state) => {
     if (meshRef.current) {
-      meshRef.current.rotation.x = state.clock.elapsedTime * 0.3;
-      meshRef.current.rotation.y = state.clock.elapsedTime * 0.5;
+      meshRef.current.rotation.x = state.clock.elapsedTime * 0.1;
+      meshRef.current.rotation.y = state.clock.elapsedTime * 0.15;
     }
   });
 
@@ -193,9 +193,22 @@ export const FloatingLogo = ({ position, url, size = 1, speed = 1 }: {
     );
   }, [url]);
 
-  useFrame((state) => {
+  useFrame((state, delta) => {
     if (meshRef.current && texture) {
-      meshRef.current.rotation.y = state.clock.elapsedTime * 0.15 * speed;
+      // Smoothly look at the camera
+      const targetQuaternion = new THREE.Quaternion();
+      const originalRotation = meshRef.current.rotation.clone();
+
+      // Calculate target rotation to face camera
+      meshRef.current.lookAt(state.camera.position);
+      targetQuaternion.copy(meshRef.current.quaternion);
+
+      // Restore and slerp
+      meshRef.current.rotation.copy(originalRotation);
+      meshRef.current.quaternion.slerp(targetQuaternion, 0.1);
+
+      // Maintain slow rotation around Y
+      meshRef.current.rotation.y += speed * delta * 0.3;
     }
   });
 
@@ -224,7 +237,14 @@ export const HeroScene = () => {
     <Canvas
       camera={{ position: [0, 0, 8], fov: 60 }}
       style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%" }}
-      gl={{ antialias: true, alpha: true, toneMapping: THREE.ACESFilmicToneMapping, toneMappingExposure: 1.2 }}
+      gl={{
+        antialias: true,
+        alpha: true,
+        toneMapping: THREE.ACESFilmicToneMapping,
+        toneMappingExposure: 1.2,
+        powerPreference: "high-performance"
+      }}
+      dpr={[1, 1.5]}
     >
       <Suspense fallback={null}>
         <color attach="background" args={["#030712"]} />
@@ -282,7 +302,13 @@ export const SkillsScene = () => {
     <Canvas
       camera={{ position: [0, 0, 6], fov: 50 }}
       style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%" }}
-      gl={{ antialias: true, alpha: true, toneMapping: THREE.ACESFilmicToneMapping }}
+      gl={{
+        antialias: true,
+        alpha: true,
+        toneMapping: THREE.ACESFilmicToneMapping,
+        powerPreference: "high-performance"
+      }}
+      dpr={[1, 1.5]}
     >
       <Suspense fallback={null}>
         <color attach="background" args={["#030712"]} />
@@ -322,7 +348,13 @@ export const ProjectsScene = () => {
     <Canvas
       camera={{ position: [0, 0, 6], fov: 50 }}
       style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%" }}
-      gl={{ antialias: true, alpha: true, toneMapping: THREE.ACESFilmicToneMapping }}
+      gl={{
+        antialias: true,
+        alpha: true,
+        toneMapping: THREE.ACESFilmicToneMapping,
+        powerPreference: "high-performance"
+      }}
+      dpr={[1, 1.5]}
     >
       <Suspense fallback={null}>
         <color attach="background" args={["#030712"]} />
@@ -360,7 +392,13 @@ export const ContactScene = () => {
     <Canvas
       camera={{ position: [0, 0, 5], fov: 50 }}
       style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%" }}
-      gl={{ antialias: true, alpha: true, toneMapping: THREE.ACESFilmicToneMapping }}
+      gl={{
+        antialias: true,
+        alpha: true,
+        toneMapping: THREE.ACESFilmicToneMapping,
+        powerPreference: "high-performance"
+      }}
+      dpr={[1, 1.5]}
     >
       <Suspense fallback={null}>
         <color attach="background" args={["#030712"]} />
